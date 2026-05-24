@@ -241,10 +241,10 @@ function Index() {
             </div>
             <div className="flex flex-col items-center md:items-end gap-2 text-sm text-muted-foreground">
               <a
-                href="mailto:hello@anareve.eu"
+                href="mailto:hello@anareve.org"
                 className="gold-underline text-foreground"
               >
-                hello@anareve.eu
+                hello@anareve.org
               </a>
               <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground/70">
                 Europe · {new Date().getFullYear()}

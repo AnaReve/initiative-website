@@ -125,7 +125,7 @@ function Index() {
             Why Ana Rêve
           </p>
           <h2 className="font-serif text-3xl md:text-5xl leading-[1.15] text-primary">
-            No family should feel alone
+            No family should feel alone{" "}
             <br className="hidden md:block" />
             when facing complexity.
           </h2>

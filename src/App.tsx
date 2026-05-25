@@ -1,32 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import emblem from "@/assets/ana-reve-emblem.png";
 import hero from "@/assets/ana-reve-hero.jpg";
-
-export const Route = createFileRoute("/")({
-  component: Index,
-  head: () => ({
-    meta: [
-      { title: "Ana Rêve Initiative — A European initiative for hope and dignity" },
-      {
-        name: "description",
-        content:
-          "Ana Rêve Initiative is a European nonprofit bringing together people, expertise and technology to support families and vulnerable lives with dignity.",
-      },
-      { property: "og:title", content: "Ana Rêve Initiative" },
-      {
-        property: "og:description",
-        content: "A European initiative for hope, dignity and meaningful support.",
-      },
-    ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap",
-      },
-    ],
-  }),
-});
 
 function Emblem({ className = "" }: { className?: string }) {
   return (
@@ -40,7 +14,7 @@ function Emblem({ className = "" }: { className?: string }) {
   );
 }
 
-function Index() {
+export default function App() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
 

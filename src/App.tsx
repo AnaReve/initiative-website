@@ -34,9 +34,6 @@ export default function App() {
               Ana Rêve Initiative
             </span>
           </div>
-          <span className="hidden sm:inline text-[11px] uppercase tracking-[0.25em] text-muted-foreground ar-fade">
-            Est. Europe
-          </span>
         </div>
       </header>
 

@@ -16,11 +16,40 @@ function Emblem({ className = "" }: { className?: string }) {
 
 export default function App() {
   const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [consent, setConsent] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const onSubmit = (e: React.FormEvent) => {
+  const encode = (data: Record<string, string>) =>
+    Object.keys(data)
+      .map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(data[k]))
+      .join("&");
+
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email.trim()) setSubmitted(true);
+    setError(null);
+    if (!email.trim() || !consent) return;
+    setSubmitting(true);
+    try {
+      const res = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encode({
+          "form-name": "notify",
+          email: email.trim(),
+          firstName: firstName.trim(),
+          consent: "yes",
+        }),
+      });
+      if (!res.ok) throw new Error("Network error");
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -157,40 +186,92 @@ export default function App() {
             ecosystem. Please come back soon.
           </p>
 
-          <form
-            onSubmit={onSubmit}
-            className="mt-14 max-w-md mx-auto"
-            aria-label="Be informed when we launch"
-          >
-            <p className="text-[11px] uppercase tracking-[0.28em] text-gold-soft mb-5">
-              Be informed when we launch
-            </p>
-            {submitted ? (
-              <p className="font-serif italic text-xl text-gold-soft ar-fade">
-                Thank you. We will be in touch.
+          {submitted ? (
+            <div className="mt-14 max-w-md mx-auto ar-fade">
+              <p className="text-[11px] uppercase tracking-[0.28em] text-gold-soft mb-5">
+                Thank you
               </p>
-            ) : (
-              <div className="flex flex-col sm:flex-row gap-px bg-primary-foreground/15">
+              <p className="font-serif italic text-xl md:text-2xl text-gold-soft leading-relaxed">
+                Thank you for joining the Ana Rêve journey. We'll keep you
+                informed as we move closer to launch.
+              </p>
+            </div>
+          ) : (
+            <form
+              name="notify"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              onSubmit={onSubmit}
+              className="mt-14 max-w-md mx-auto text-left"
+              aria-label="Be informed when we launch"
+            >
+              <input type="hidden" name="form-name" value="notify" />
+              <p className="hidden">
+                <label>
+                  Don't fill this out: <input name="bot-field" />
+                </label>
+              </p>
+
+              <p className="text-[11px] uppercase tracking-[0.28em] text-gold-soft mb-5 text-center">
+                Be informed when we launch
+              </p>
+
+              <div className="space-y-3">
+                <input
+                  type="text"
+                  name="firstName"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  placeholder="First name (optional)"
+                  className="w-full bg-primary-foreground/[0.06] border border-primary-foreground/15 px-5 py-4 text-sm text-primary-foreground placeholder:text-primary-foreground/40 focus:outline-none focus:border-gold-soft/60 transition-colors"
+                />
                 <input
                   type="email"
+                  name="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your@email.com"
-                  className="flex-1 bg-transparent px-5 py-4 text-sm text-primary-foreground placeholder:text-primary-foreground/40 focus:outline-none focus:bg-primary-foreground/[0.04]"
+                  className="w-full bg-primary-foreground/[0.06] border border-primary-foreground/15 px-5 py-4 text-sm text-primary-foreground placeholder:text-primary-foreground/40 focus:outline-none focus:border-gold-soft/60 transition-colors"
                 />
-                <button
-                  type="submit"
-                  className="bg-gold text-primary px-6 py-4 text-sm tracking-wide hover:bg-gold-soft transition-colors"
-                >
-                  Notify me
-                </button>
               </div>
-            )}
-            <p className="mt-4 text-xs text-primary-foreground/50">
-              We respect your privacy. No spam, ever.
-            </p>
-          </form>
+
+              <label className="mt-5 flex items-start gap-3 text-xs leading-relaxed text-primary-foreground/70 cursor-pointer">
+                <input
+                  type="checkbox"
+                  name="consent"
+                  required
+                  checked={consent}
+                  onChange={(e) => setConsent(e.target.checked)}
+                  className="mt-0.5 h-4 w-4 shrink-0 accent-gold cursor-pointer"
+                />
+                <span>
+                  I agree to receive updates about Ana Rêve Initiative. I
+                  understand that my information will only be used for
+                  initiative updates and can be withdrawn at any time.
+                </span>
+              </label>
+
+              <button
+                type="submit"
+                disabled={submitting}
+                className="mt-6 w-full bg-gold text-primary px-6 py-4 text-sm tracking-[0.2em] uppercase hover:bg-gold-soft transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {submitting ? "Sending…" : "Notify Me"}
+              </button>
+
+              {error && (
+                <p className="mt-4 text-xs text-center text-gold-soft">
+                  {error}
+                </p>
+              )}
+
+              <p className="mt-5 text-xs text-center text-primary-foreground/50">
+                Your privacy matters. We will never share your information.
+              </p>
+            </form>
+          )}
         </div>
       </section>
 

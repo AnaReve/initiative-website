@@ -16,11 +16,40 @@ function Emblem({ className = "" }: { className?: string }) {
 
 export default function App() {
   const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [consent, setConsent] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const onSubmit = (e: React.FormEvent) => {
+  const encode = (data: Record<string, string>) =>
+    Object.keys(data)
+      .map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(data[k]))
+      .join("&");
+
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email.trim()) setSubmitted(true);
+    setError(null);
+    if (!email.trim() || !consent) return;
+    setSubmitting(true);
+    try {
+      const res = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encode({
+          "form-name": "notify",
+          email: email.trim(),
+          firstName: firstName.trim(),
+          consent: "yes",
+        }),
+      });
+      if (!res.ok) throw new Error("Network error");
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (

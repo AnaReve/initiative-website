@@ -20,6 +20,14 @@
     />
   </head>
   <body>
+    <!-- Netlify Forms detection (static form parsed at build time) -->
+    <form name="notify" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="notify" />
+      <input type="text" name="bot-field" />
+      <input type="email" name="email" />
+      <input type="text" name="firstName" />
+      <input type="checkbox" name="consent" />
+    </form>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

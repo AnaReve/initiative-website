@@ -1,1 +1,5 @@
+http://anareve.com/* https://anareve.org/:splat 301!
+https://anareve.com/* https://anareve.org/:splat 301!
+http://www.anareve.com/* https://anareve.org/:splat 301!
+https://www.anareve.com/* https://anareve.org/:splat 301!
 /* /index.html 200

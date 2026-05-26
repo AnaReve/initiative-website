@@ -2,4 +2,25 @@ http://anareve.com/* https://anareve.org/:splat 301!
 https://anareve.com/* https://anareve.org/:splat 301!
 http://www.anareve.com/* https://anareve.org/:splat 301!
 https://www.anareve.com/* https://anareve.org/:splat 301!
+
+http://anareve.fr/* https://anareve.org/:splat 301!
+https://anareve.fr/* https://anareve.org/:splat 301!
+http://www.anareve.fr/* https://anareve.org/:splat 301!
+https://www.anareve.fr/* https://anareve.org/:splat 301!
+
+http://anareve.eu/* https://anareve.org/:splat 301!
+https://anareve.eu/* https://anareve.org/:splat 301!
+http://www.anareve.eu/* https://anareve.org/:splat 301!
+https://www.anareve.eu/* https://anareve.org/:splat 301!
+
+http://anareve.net/* https://anareve.org/:splat 301!
+https://anareve.net/* https://anareve.org/:splat 301!
+http://www.anareve.net/* https://anareve.org/:splat 301!
+https://www.anareve.net/* https://anareve.org/:splat 301!
+
+http://anareve.io/* https://anareve.org/:splat 301!
+https://anareve.io/* https://anareve.org/:splat 301!
+http://www.anareve.io/* https://anareve.org/:splat 301!
+https://www.anareve.io/* https://anareve.org/:splat 301!
+
 /* /index.html 200
